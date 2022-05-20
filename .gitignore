@@ -1,0 +1,3 @@
+# ignore ALL .bag files
+*.bag
+*.asv
