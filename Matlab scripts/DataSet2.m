@@ -100,22 +100,29 @@ axis([0 240 0 180]);
 set(gca,'YDir','reverse')
 hold on
 %loop
- for i = 56:250
+ for i = 56:159
      try delete(Fevents); end;
      Fevents = scatter(xyt{i,1},xyt{i,2},'d','r');
      corners.KF_loop(xyt(i,:));
-     
-     pause(0.5);
+     pause(0.05);
  end
-
+ results = corners.KF_feature;
 %%
 KF_features = cell(593,1);
 for i = 1:593
     count = 1;
     for j=1:6
-       KF_features{i}(count,:) = a(i,:,j);
+       KF_features{i}(count,:) = results(i,:,j);
        count = count + 1;
    end 
+end
+
+for i=1:36      %cut data off so that the HC and KF end at roughly the same point
+%     count = 1;
+    for j=1:6
+        KF_plot(j,:,i) = KF_features{i}(j,:);
+%         count = count + 1;
+    end
 end
 
 

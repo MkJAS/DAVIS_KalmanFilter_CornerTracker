@@ -21,7 +21,6 @@ classdef Corner < handle
         R;                  %measurment covariance matrix
 
         skip;               %skip for when no measurment is found
-        num_skips;          %number of skips in a row for a corner
         size_t1;            %size of previous possible features
         iter;               %count for message number/loop number
         num_corners;        %number of corners input
@@ -37,6 +36,7 @@ classdef Corner < handle
         KF_feature;             %stores points calculated by KF
         avgs;                   %average position out of those found within error ellipse
         cmd_Xp;                 %prediction matrix containing predicted positions and velocities
+        num_skips;              %number of skips 
 
     end 
 
@@ -165,7 +165,6 @@ classdef Corner < handle
                             Xm(2) = t2(1,2);
                             self.t1(C_idx) = xyt{1,3}{t2(1,5)}.Ns*10^-9 + xyt{1,3}{t2(1,5)}.s;
                             self.g = plot(Xm(1),Xm(2),'*','color','g');
-                            self.num_skips(C_idx) = 0;
                         %If t2 is STILL empty, take the closest feature event to
                         %the predicted point as the measurment and set skip
                         %to true 
@@ -174,7 +173,6 @@ classdef Corner < handle
                             Xm(1) = p2(1);    
                             Xm(2) = p2(2);    
                             self.skip = true;
-                            self.num_skips(C_idx) = self.num_skips(C_idx) + 1;
                             self.g = plot(Xm(1),Xm(2),'*','color','g');
                             self.t1(C_idx) = xyt{1,3}{idx}.Ns*10^-9 + xyt{1,3}{idx}.s;       
                         end   
@@ -194,11 +192,13 @@ classdef Corner < handle
             self.E{C_idx} = self.F{self.iter} * self.E{C_idx} * self.F{self.iter}' + self.Q{self.iter};                 %Predict next covariance
             %Calculate K
             K = self.E{C_idx}*self.H'*inv(self.H*self.E{C_idx}*self.H'+[500 0;0 500]);          %If it is determined that there were no events, i.e. no measurments set noise really high so it the Kalman gain ignores it
+            self.num_skips(C_idx) =  self.num_skips(C_idx) + 1;
             %If no measurments were taken earlier, leave K as above, in
             %order to ignore the measurment component, otherwise override
             %the above line with the line below
             if self.skip == false  
                 K = self.E{C_idx}*self.H'*inv(self.H*self.E{C_idx}*self.H'+self.R{C_idx});           %Kalman Gain     K = E*H'*inv(H*E*H'+R);
+                self.num_skips(C_idx) =  self.num_skips(C_idx) - 1;
             end 
             %Predict next Xp
             self.Xp{C_idx} = self.Xp{C_idx} + K*(Xm(1:2,:) - self.H*self.Xp{C_idx});                     %update state estimate
