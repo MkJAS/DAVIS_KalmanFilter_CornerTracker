@@ -1,6 +1,6 @@
 classdef Corner < handle
-    %Corner Class to contain all associated data and functions for a corner feature
-    %   Detailed explanation goes here
+    % Corner Class to contain all associated data and functions for a corner feature
+ 
 
     properties (Access = private)
         

@@ -1,7 +1,7 @@
+%% Script for running tracker on dataset2
 close all 
 clear all
 
-%%
 load("Featuresxyt.mat");
 load('times.csv');
 

@@ -1,7 +1,7 @@
+%% Script for running tracker on dataset1
 close all 
 clear all
 
-%%
 load("Featuresxyt.mat");    %.mat containing the extracting x,y values for all the events within the .bag file
 load('times.csv');          %.csv containing the time of the first event, out of all the events not the feature extracted ones, for each message
 

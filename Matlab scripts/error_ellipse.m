@@ -1,4 +1,5 @@
 function [a,b,h,k,r_ellipse]=error_ellipse(corner,varargin)
+%% Credit to https://au.mathworks.com/matlabcentral/fileexchange/4705-error_ellipse
 % ERROR_ELLIPSE - plot an error ellipse, or ellipsoid, defining confidence region
 %    ERROR_ELLIPSE(C22) - Given a 2x2 covariance matrix, plot the
 %    associated error ellipse, at the origin. It returns a graphics handle
