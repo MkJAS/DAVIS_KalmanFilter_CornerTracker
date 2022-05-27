@@ -30,8 +30,12 @@ Some other variables you may need to change within the corner class depending on
 
 # File Description
 Featuresxyt.mat: Contains x,y and time information for each feature event from the /feature_events ROS topic. Time stored as a struct of nanoseconds and seconds
+
 imageframes.mat: Contains all the raw image messages obtained from the shapes_translation.bag subset used
+
 times.csv: Contains the times of the first event from every message in the dvs/events ROS topic
+
 error_ellipse: ellipse function obtained from MATLAB file exchange here: https://au.mathworks.com/matlabcentral/fileexchange/4705-error_ellipse
+
 DataSet1 & DataSet2 folders: Contain all .mat variables used in producing plots and figures for report
 
